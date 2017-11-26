@@ -22,4 +22,4 @@ I am using Swagger which is one of the most applauded specification for document
 
 Access the API document using `http://localhost:3000/swagger` once the server is started.
 
-![Swagger API Document](./resources/swagger-api.jpg)
+![Swagger API Document](../resources/swagger-api.jpg)
