@@ -1,14 +1,26 @@
-import { Component } from '@nestjs/common';
 import { HttpException } from '@nestjs/core';
+import { Component, Inject } from '@nestjs/common';
+import { Repository } from 'typeorm';
+
 import * as uuid from 'uuid';
+
+import { User, UserDetails } from './entities/user.entities'
 
 @Component()
 export class UsersService {
 
+    constructor(
+        @Inject('UserRepository') private readonly userRepository: Repository<User>,
+        @Inject('UserDetailsRepository') private readonly userDetailsRepository: Repository<UserDetails>
+    ) { }
+
     /*******************************************************
      * Get all Users
      *******************************************************/
-    public getAllUsers() {
+    async getAllUsers(): Promise<User[]> {
+        return await this.userRepository.find();
+    }
+    /*
         return new Promise((resolve, reject) => {
             let users: Array<{ id: number, name: string }> = Array(
                 { "id": 0, "name": "Madan" },
@@ -19,7 +31,7 @@ export class UsersService {
             resolve(users);
         })
     }
-
+    */
     /*******************************************************
      * Get One User by Id
      *******************************************************/

@@ -7,11 +7,14 @@ import { VersionsModule } from './versions/versions.module';
 import { CustomersModule } from './customers/customers.module';
 
 @Module({
-  modules: [UsersModule
-            , ProductsModule
-            , ReleasesModule
-            , VersionsModule
-            , CustomersModule],
+  modules: [
+    UsersModule
+    , ProductsModule
+    , ReleasesModule
+    , VersionsModule
+    , CustomersModule]
+  ,
+
   controllers: [],
 
   components: [],

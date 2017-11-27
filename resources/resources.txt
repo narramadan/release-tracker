@@ -1,0 +1,2 @@
+// Example to use inversify with express
+https://github.com/hanymorcos/typescript-express-inversify-typeorm-mysql
