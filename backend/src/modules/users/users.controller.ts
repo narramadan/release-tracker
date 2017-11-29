@@ -2,6 +2,8 @@ import { Controller, Get, Post, Put, Delete, Request, Response, Body, Param, Htt
 import { ApiUseTags } from '@nestjs/swagger';
 
 import { UsersService } from "./users.service";
+import { UserDto } from './dtos/user.dto';
+import { User } from './entities/user.entities';
 
 @ApiUseTags('user')
 @Controller('user')
@@ -26,25 +28,36 @@ export class UsersController {
     }
 
     @Post()
-    public async createUser( @Response() res,
-                                @Body('username') username,
-                                @Body('email') email,
-                                @Body('password') password) {
-        const result = await this.usersService.createUser(username, email, password);
+    public async createUser( 
+        @Response() res, 
+        @Body() userDto : UserDto) {
+
+        let user = new User();
+        user.firstName = userDto.firstName;
+        user.lastName = userDto.lastName;
+        user.userName = userDto.userName;
+        user.password = userDto.password;
+
+        const id:number = await this.usersService.createUser(user);
         
-        res.status(HttpStatus.CREATED).json(result);
+        res.status(HttpStatus.CREATED).json(id);
     }
 
-    @Put('/:id')
-    public async updateUser( @Response() res,
-                                @Param('id') id,
-                                @Body('username') username,
-                                @Body('email') email,
-                                @Body('password') password,
-                                @Body('role') role) {
-        const result = await this.usersService.updateUser(id, username, email, password, role);
-        
-        res.status(HttpStatus.ACCEPTED).json(result);
+    @Put()
+    public async updateUser( 
+        @Response() res,
+        @Body() userDto: UserDto) {
+
+        let user = new User();
+        user.id = userDto.id;
+        user.firstName = userDto.firstName;
+        user.lastName = userDto.lastName;
+        user.userName = userDto.userName;
+        user.password = userDto.password;
+
+        await this.usersService.updateUser(user);
+
+        res.status(HttpStatus.CREATED).json(user);
     }
 
     @Delete('/:id')

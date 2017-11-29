@@ -15,7 +15,8 @@ export const databaseProviders = [
             ],
 
             // Autocreate Schema
-            synchronize: true
+            synchronize: true,
+            logging: true
         }),
     },
 ];

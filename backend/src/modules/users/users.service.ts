@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import * as uuid from 'uuid';
 
 import { User, UserDetails } from './entities/user.entities'
+import { UserDto } from './dtos/user.dto';
 
 @Component()
 export class UsersService {
@@ -20,54 +21,50 @@ export class UsersService {
     async getAllUsers(): Promise<User[]> {
         return await this.userRepository.find();
     }
-    /*
-        return new Promise((resolve, reject) => {
-            let users: Array<{ id: number, name: string }> = Array(
-                { "id": 0, "name": "Madan" },
-                { "id": 1, "name": "Meenakshi" },
-                { "id": 2, "name": "Manya" }
-            );
-
-            resolve(users);
-        })
-    }
-    */
+    
     /*******************************************************
      * Get One User by Id
      *******************************************************/
-    public getUser(value: any) {
-        return new Promise((resolve, reject) => {
-            let user: { id: number, name: string } = { "id": 0, "name": "Madan" };
-
-           // resolve(user);
-            reject(new HttpException("Error occurred while fetching Users", 500));
-        });
+    async getUser(id: number): Promise<User> {
+        return await this.userRepository.findOneById(id);
     }
 
     /*******************************************************
      * Create User
      *******************************************************/
-    public createUser(username: String, email: String, password: String) {
-        return new Promise((resolve, reject) => {
-            // Create User
-        });
+    async createUser(user:User): Promise<number> {
+
+        console.dir(user);
+
+        let id: number;
+        await this.userRepository.save(user)
+            .then(user => {
+                id = user.id
+            }).catch(error => {
+                throw new HttpException("Error occurred while saving user : "+error, 500);
+            });        
+        return id;        
     }
 
     /*******************************************************
      * Update User
      *******************************************************/
-    public updateUser(id: String, username: String, email: String, password: String, role: String) {
-        return new Promise((resolve, reject) => {
-            // Update user
-        });
+    async updateUser(user: User): Promise<User> {
+        await this.userRepository.save(user)
+            .catch(error => {
+                throw new HttpException("Error occurred while updating user", 500);
+            });
+        return user;
     }
 
     /*******************************************************
      * Delete User
      *******************************************************/
-    public deleteUser(id: String) {
-        return new Promise((resolve, reject) => {
-            // Delete User
-        });
+    async deleteUser(id: number): Promise<number> {
+        await this.userRepository.deleteById(id)
+            .catch(error => {
+                throw new HttpException("Error occurred while deleting user with id : "+id, 500);
+            })
+        return id;
     }
 }
