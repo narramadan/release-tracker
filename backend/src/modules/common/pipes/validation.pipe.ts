@@ -4,13 +4,18 @@ import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 
 import { FieldMessage, BadRequestException } from '../exceptions/badrequest.exception';
+import { Logger } from '../logger';
 
 /*
 Global Pipe to validate request body and throw bad request excpetion if there are any validation errors.
 */
 @Pipe()
 export class ValidationPipe implements PipeTransform<any> {
+    
+    logger: Logger = new Logger("ValidationPipe");
+
     async transform(value, metadata: ArgumentMetadata) {
+
         const { metatype } = metadata;
         if (!metatype || !this.toValidate(metatype)) {
             return value;
@@ -36,6 +41,7 @@ export class ValidationPipe implements PipeTransform<any> {
 
                 badRequests.push(new FieldMessage(error.property, messages));
             }
+            this.logger.error(JSON.stringify(badRequests));
 
             throw new BadRequestException(badRequests);
         }
