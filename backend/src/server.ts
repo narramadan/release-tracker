@@ -7,6 +7,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Transport } from '@nestjs/microservices';
 
 import { ApplicationModule } from './modules/app.module';
+import { ValidationPipe } from './modules/common/pipes/validation.pipe';
 
 // Define port on which instance should be running
 enum Port {
@@ -49,7 +50,7 @@ async function main(port: number = 3000) {
 	await app.startAllMicroservicesAsync();
 
 	await setUpSwagger(app);
-
+	app.useGlobalPipes(new ValidationPipe());
 	await app.listen(port, () => console.info(bootString));
 	return app;
 }

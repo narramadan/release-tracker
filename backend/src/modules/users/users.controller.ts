@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Put, Delete, Request, Response, Body, Param, HttpStatus } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
+import { validate } from "class-validator";
 
 import { UsersService } from "./users.service";
 import { UserDto } from './dtos/user.dto';
 import { User } from './entities/user.entities';
+import { error } from 'util';
 
 @ApiUseTags('user')
 @Controller('user')
@@ -31,6 +33,16 @@ export class UsersController {
     public async createUser( 
         @Response() res, 
         @Body() userDto : UserDto) {
+
+        validate(userDto).then(errors => {
+            console.dir(errors);
+
+            if (errors.length > 0) {
+                console.log("validation failed. errors: ", errors);
+            } else {
+                console.log("validation succeed");
+            }
+        });
 
         let user = new User();
         user.firstName = userDto.firstName;
