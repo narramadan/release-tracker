@@ -1,2 +1,9 @@
 // Example to use inversify with express
 https://github.com/hanymorcos/typescript-express-inversify-typeorm-mysql
+
+Admin Template - https://github.com/puikinsh/Adminator-admin-dashboard
+
+Nest JS - Example - https://github.com/nestjs/nest/tree/master/examples/01-cats-app
+
+Node JS Logger - https://github.com/winstonjs/winston
+

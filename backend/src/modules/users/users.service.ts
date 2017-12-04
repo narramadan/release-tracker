@@ -4,15 +4,14 @@ import { Repository } from 'typeorm';
 
 import * as uuid from 'uuid';
 
-import { User, UserDetails } from './entities/user.entities'
+import { User } from './entities/user.entities'
 import { UserDto } from './dtos/user.dto';
 
 @Component()
 export class UsersService {
 
     constructor(
-        @Inject('UserRepository') private readonly userRepository: Repository<User>,
-        @Inject('UserDetailsRepository') private readonly userDetailsRepository: Repository<UserDetails>
+        @Inject('UserRepository') private readonly userRepository: Repository<User>
     ) { }
 
     /*******************************************************
